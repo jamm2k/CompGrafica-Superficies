@@ -59,6 +59,10 @@ int comando = RotarX;
 
 int tipoView = GL_LINE_STRIP;
 
+int lastX = 0;
+int lastY = 0;
+int isDragging = 0;
+
 float local_scale = 0.22f;
 
 float VARIA = 0.25f;
@@ -534,6 +538,65 @@ void reshape(int w, int h) {
   glMatrixMode(GL_MODELVIEW);
 }
 
+void mouse(int button, int state, int x, int y) {
+  if (button == GLUT_LEFT_BUTTON) {
+    if (state == GLUT_DOWN) {
+      lastX = x;
+      lastY = y;
+      isDragging = 1;
+    } else if (state == GLUT_UP) {
+      isDragging = 0;
+    }
+  }
+}
+
+void motion(int x, int y) {
+  if (isDragging) {
+    float dx = (float)(x - lastX);
+    float dy = (float)(y - lastY);
+    
+    MatrizIdentidade(); // reset
+
+    if (comando == Escalar) {
+      float scale = 1.0f + (dy * 0.01f);
+      if (scale < 0.1f) scale = 0.1f;
+      matTransf[0][0] = scale;
+      matTransf[1][1] = scale;
+      matTransf[2][2] = scale;
+    } else if (comando == RotarX) {
+      float angle = dy * 0.01f; // mouse up/down rotates X
+      matTransf[1][1] = cos(angle);
+      matTransf[1][2] = sin(angle);
+      matTransf[2][1] = -sin(angle);
+      matTransf[2][2] = cos(angle);
+    } else if (comando == RotarY) {
+      float angle = dx * 0.01f; // mouse left/right rotates Y
+      matTransf[0][0] = cos(angle);
+      matTransf[0][2] = -sin(angle);
+      matTransf[2][0] = sin(angle);
+      matTransf[2][2] = cos(angle);
+    } else if (comando == RotarZ) {
+      float angle = dx * 0.01f;
+      matTransf[0][0] = cos(angle);
+      matTransf[0][1] = sin(angle);
+      matTransf[1][0] = -sin(angle);
+      matTransf[1][1] = cos(angle);
+    } else if (comando == TransladaX) {
+      matTransf[3][0] = dx * 0.05f;
+    } else if (comando == TransladaY) {
+      matTransf[3][1] = -dy * 0.05f; // invert Y
+    } else if (comando == TransladaZ) {
+      matTransf[3][2] = dy * 0.05f;
+    }
+
+    MultMatriz();
+    glutPostRedisplay();
+
+    lastX = x;
+    lastY = y;
+  }
+}
+
 void keyboard(int key, int x, int y) {
   MatrizIdentidade(); // identidade em matTransf : matriz de transforma
   switch (comando) {
@@ -743,6 +806,8 @@ int main(int argc, char **argv) {
   glutReshapeFunc(reshape);
   glutSpecialFunc(keyboard);
   glutDisplayFunc(display);
+  glutMouseFunc(mouse);
+  glutMotionFunc(motion);
   createGLUTMenus();
 
   // INICIALIZACAO AUTOMATICA:
