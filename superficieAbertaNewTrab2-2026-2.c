@@ -382,7 +382,7 @@ void MostrarUmPatch(int cc)
 				if(t<0.0f)
 					t *= -1.00f;
 
-				glBegin(GL_POLYGON);
+				glBegin(GL_TRIANGLES);
 					glColor3f(t*vcolor[cc][X],t*vcolor[cc][Y],t*vcolor[cc][Z]);
 					glNormal3fv(n);
                     glVertex3fv(ptsPatch->ponto[i][j]);
@@ -421,7 +421,7 @@ void MostrarUmPatch(int cc)
 				if(t<0.0f)
 					t *= -1.00f;
 
-				glBegin(GL_POLYGON);
+				glBegin(GL_TRIANGLES);
 					glColor3f(t*vcolor[cc][X],t*vcolor[cc][Y],t*vcolor[cc][Z]);
 					glNormal3fv(n);
                     glVertex3fv(ptsPatch->ponto[i][j+1]);
