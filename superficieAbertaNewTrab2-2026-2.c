@@ -369,10 +369,11 @@ void MostrarUmPatch(int cc) {
         n[Z] = a[X] * b[Y] - a[Y] * b[X];
 
         s = sqrt(n[X] * n[X] + n[Y] * n[Y] + n[Z] * n[Z]);
-
-        n[X] /= s;
-        n[Y] /= s;
-        n[Z] /= s;
+        if (s > 0.0001f) {
+            n[X] /= s;
+            n[Y] /= s;
+            n[Z] /= s;
+        }
 
         l[X] = pView[X] - ptsPatch->ponto[i][j][X];
         l[Y] = pView[Y] - ptsPatch->ponto[i][j][Y];
@@ -409,10 +410,11 @@ void MostrarUmPatch(int cc) {
         n[Z] = a[X] * b[Y] - a[Y] * b[X];
 
         s = sqrt(n[X] * n[X] + n[Y] * n[Y] + n[Z] * n[Z]);
-
-        n[X] /= s;
-        n[Y] /= s;
-        n[Z] /= s;
+        if (s > 0.0001f) {
+            n[X] /= s;
+            n[Y] /= s;
+            n[Z] /= s;
+        }
 
         l[X] = pView[X] - ptsPatch->ponto[i + 1][j + 1][X];
         l[Y] = pView[Y] - ptsPatch->ponto[i + 1][j + 1][Y];
@@ -660,7 +662,6 @@ int CarregaPontos(char *arch) {
 }
 
 void processMenuEvents(int option) {
-  MatrizIdentidade();
   if (option == PtsControle)
     CarregaPontos("ptosControleSuperficieTrab.txt");
   else if (option == PtsOnda)
@@ -673,13 +674,11 @@ void processMenuEvents(int option) {
     tipoView = GL_QUADS;
   else if (option == sair)
     exit(0);
-  else
-    comando = option;
-
-  if (option == BEZIER || option == BSPLINE ||
-      option == CATMULLROM) // OBSERVACAO: considerar cado de CATMULLROM
-  {
+  else if (option == BEZIER || option == BSPLINE || option == CATMULLROM) {
     MontaMatrizBase(option);
+  } else {
+    // Opcoes de rotacao, escala e translacao
+    comando = option;
   }
   glutPostRedisplay();
 }
@@ -745,6 +744,12 @@ int main(int argc, char **argv) {
   glutSpecialFunc(keyboard);
   glutDisplayFunc(display);
   createGLUTMenus();
+
+  // INICIALIZACAO AUTOMATICA:
+  // Carrega os pontos iniciais e monta a matriz base para evitar que a tela inicie preta
+  // e evitar divisão por zero por matriz não inicializada.
+  CarregaPontos("ptosControleSuperficieTrab.txt");
+  MontaMatrizBase(BEZIER);
 
   glutMainLoop();
   return 0;
