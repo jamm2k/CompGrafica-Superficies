@@ -73,10 +73,14 @@ f4d pView = {10.0, 10.0, -20.0, 0.0};
 	// OBSERVACAO 0: cores
 	//       definir mais cores 
     // ---------------------------------------------
-f4d vcolor[4] = {{1.0, 0.0, 0.0, 0.0},
-				 {0.0, 1.0, 0.0, 0.0},
-				 {0.0, 0.0, 1.0, 0.0},
-				 {1.0, 1.0, 0.0, 0.0}};
+f4d vcolor[8] = {{1.0, 0.5, 0.0, 0.0},
+				 {0.0, 1.0, 1.0, 0.0},
+				 {1.0, 0.0, 1.0, 0.0},
+				 {0.5, 0.0, 1.0, 0.0},
+				 {1.0, 1.0, 0.0, 0.0},
+				 {0.0, 1.0, 0.5, 0.0},
+				 {1.0, 0.2, 0.2, 0.0},
+				 {0.2, 0.5, 1.0, 0.0}};
 
 
 matriz *pControle = NULL;  // matriz de pontos de controle  LIDOS
@@ -492,7 +496,7 @@ void DisenaSuperficie(void)
 		{
 		    copiarPtosControlePatch(i, j, pcPatch);  // copiar ptos de controle em matriz 4 x 4
 		    ptsSuperficie(pcPatch);        // calculos pontos do PATCH com os ptos de Contrle em pcPatch 
-			idCor = (i+j)%4;               // indice de paleta de COR 
+			idCor = (i+j)%8;               // indice de paleta de COR 
 		    MostrarUmPatch(idCor);
 		}
 	}
