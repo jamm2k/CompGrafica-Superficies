@@ -575,17 +575,62 @@ void keyboard(int key, int x, int y)
 				}
             break;
 
-	//-------------------------------------------------------
-	// OBSERVACAO 3:  
-	// Considerar Rotacao no eixo Y  e  Z
-    // -----------------------------------------------------
+	  case RotarY:
+			if(key == GLUT_KEY_LEFT || key == GLUT_KEY_DOWN )
+            {  
+                    matTransf[0][0] = cos(-0.01);
+                    matTransf[0][2] = -sin(-0.01);
+                    matTransf[2][0] = sin(-0.01);
+                    matTransf[2][2] = cos(-0.01);
+			} else
+				if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_UP )
+				{
+                    matTransf[0][0] = cos(0.01);
+                    matTransf[0][2] = -sin(0.01);
+                    matTransf[2][0] = sin(0.01);
+                    matTransf[2][2] = cos(0.01);
+				}
+            break;
+
+  case RotarZ:
+			if(key == GLUT_KEY_LEFT || key == GLUT_KEY_DOWN )
+            {  
+                    matTransf[0][0] = cos(-0.01);
+                    matTransf[0][1] = sin(-0.01);
+                    matTransf[1][0] = -sin(-0.01);
+                    matTransf[1][1] = cos(-0.01);
+			} else
+				if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_UP )
+				{
+                    matTransf[0][0] = cos(0.01);
+                    matTransf[0][1] = sin(0.01);
+                    matTransf[1][0] = -sin(0.01);
+                    matTransf[1][1] = cos(0.01);
+				}
+            break;
 
 		case TransladaX:
-			if(key == GLUT_KEY_LEFT )
+			if(key == GLUT_KEY_LEFT || key == GLUT_KEY_DOWN )
                     matTransf[3][0] = -0.10;
 			else
-				if (key == GLUT_KEY_RIGHT )
+				if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_UP )
                     matTransf[3][0] = 0.10;
+            break;
+
+		case TransladaY:
+			if(key == GLUT_KEY_LEFT || key == GLUT_KEY_DOWN )
+                    matTransf[3][1] = -0.10;
+			else
+				if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_UP )
+                    matTransf[3][1] = 0.10;
+            break;
+
+		case TransladaZ:
+			if(key == GLUT_KEY_LEFT || key == GLUT_KEY_DOWN )
+                    matTransf[3][2] = -0.10;
+			else
+				if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_UP )
+                    matTransf[3][2] = 0.10;
             break;
 	//-------------------------------------------------------
 	// OBSERVACAO 4:  
@@ -656,7 +701,7 @@ void processMenuEvents(int option)
     else
         comando = option;
 
-    if(option==BEZIER || option==BSPLINE )  // OBSERVACAO: considerar cado de CATMULLROM
+    if(option==BEZIER || option==BSPLINE || option==CATMULLROM )  // OBSERVACAO: considerar cado de CATMULLROM
     {
 		 MontaMatrizBase(option);
     }
@@ -674,6 +719,7 @@ void createGLUTMenus()
 	// OBSERVACAO 5:  
 	// colocar opcao para CatmullRom
     // -----------------------------------------------------
+	glutAddMenuEntry("Catmull-Rom", CATMULLROM);
     
 	SUBmenuGirar = glutCreateMenu(processMenuEvents);
 	glutAddMenuEntry("EixoX", RotarX);
@@ -681,6 +727,8 @@ void createGLUTMenus()
 	// OBSERVACAO 6:
 	// Considerar opcao de Rotacao em Y e Z
 	// ------------------------------------------------------
+	glutAddMenuEntry("EixoY", RotarY);
+	glutAddMenuEntry("EixoZ", RotarZ);
 
 	SUBmenuTransladar = glutCreateMenu(processMenuEvents);
 	glutAddMenuEntry("EixoX", TransladaX);
@@ -688,6 +736,8 @@ void createGLUTMenus()
 	// OBSERVACAO 7:
 	// Considerar opcao de Translacao em Y e Z
 	// ------------------------------------------------------
+	glutAddMenuEntry("EixoY", TransladaY);
+	glutAddMenuEntry("EixoZ", TransladaZ);
 
 	SUBmenuPintar = glutCreateMenu(processMenuEvents);
 	glutAddMenuEntry("Pontos",Pontos);
