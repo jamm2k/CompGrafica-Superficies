@@ -103,18 +103,18 @@ void MontaMatrizBase(int tipoSup)
 
 	if(tipoSup==BSPLINE)
 	{
-		MatBase[0][0] = -1.0f; MatBase[0][1] = 3.0f;  MatBase[0][2] = -3.0f; MatBase[0][3] = 1.0f;
-		MatBase[1][0] =  3.0f; MatBase[1][1] = -6.0f; MatBase[1][2] =  3.0f; MatBase[1][3] = 0.0f;
-		MatBase[2][0] = -3.0f; MatBase[2][1] = 3.0f;  MatBase[2][2] =  0.0f; MatBase[2][3] = 0.0f;
-		MatBase[3][0] =  1.0f; MatBase[3][1] = 0.0f;  MatBase[3][2] =  0.0f; MatBase[3][3] = 0.0f;
+		MatBase[0][0] = -1.0f/6.0f; MatBase[0][1] =  3.0f/6.0f; MatBase[0][2] = -3.0f/6.0f; MatBase[0][3] = 1.0f/6.0f;
+		MatBase[1][0] =  3.0f/6.0f; MatBase[1][1] = -6.0f/6.0f; MatBase[1][2] =  3.0f/6.0f; MatBase[1][3] = 0.0f;
+		MatBase[2][0] = -3.0f/6.0f; MatBase[2][1] =  0.0f;      MatBase[2][2] =  3.0f/6.0f; MatBase[2][3] = 0.0f;
+		MatBase[3][0] =  1.0f/6.0f; MatBase[3][1] =  4.0f/6.0f; MatBase[3][2] =  1.0f/6.0f; MatBase[3][3] = 0.0f;
 	}
 
 	if(tipoSup==CATMULLROM)
 	{
-		MatBase[0][0] = -1.0f; MatBase[0][1] = 3.0f;  MatBase[0][2] = -3.0f; MatBase[0][3] = 1.0f;
-		MatBase[1][0] =  3.0f; MatBase[1][1] = -6.0f; MatBase[1][2] =  3.0f; MatBase[1][3] = 0.0f;
-		MatBase[2][0] = -3.0f; MatBase[2][1] = 3.0f;  MatBase[2][2] =  0.0f; MatBase[2][3] = 0.0f;
-		MatBase[3][0] =  1.0f; MatBase[3][1] = 0.0f;  MatBase[3][2] =  0.0f; MatBase[3][3] = 0.0f;
+		MatBase[0][0] = -0.5f; MatBase[0][1] =  1.5f; MatBase[0][2] = -1.5f; MatBase[0][3] =  0.5f;
+		MatBase[1][0] =  1.0f; MatBase[1][1] = -2.5f; MatBase[1][2] =  2.0f; MatBase[1][3] = -0.5f;
+		MatBase[2][0] = -0.5f; MatBase[2][1] =  0.0f; MatBase[2][2] =  0.5f; MatBase[2][3] =  0.0f;
+		MatBase[3][0] =  0.0f; MatBase[3][1] =  1.0f; MatBase[3][2] =  0.0f; MatBase[3][3] =  0.0f;
 	}
 }
 
